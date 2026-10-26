@@ -129,13 +129,38 @@ This repository is configured for a GitHub Pages project site at
 4. Every later push to `main` redeploys automatically. You can also start a
    deployment from the **Actions** tab with **Run workflow**.
 
-`npm run build:pages` runs the normal production build and copies
-`dist/index.html` to `dist/404.html`, so direct links to routes such as
-`/portfolio/work/stockledger` still load the React app on Pages.
+`npm run build:pages` runs the normal production build, writes a static HTML
+shell for every public route (so `/portfolio/work` answers with a 200 instead
+of the 404 fallback), and emits `sitemap.xml` plus `robots.txt`. The route list
+lives in `scripts/routes.mjs`; keep it in sync when adding projects, articles,
+or concepts.
 
 The production base path is set in `vite.config.ts` to `/portfolio/`. If the
 repository is renamed or the site moves to a custom domain, update that value
 (and the router basename follows it automatically).
+
+### Getting indexed by search engines
+
+A new GitHub Pages site is not in search results immediately. To request
+indexing:
+
+1. Open [Google Search Console](https://search.google.com/search-console) and
+   add a **URL prefix** property for
+   `https://kalashree225.github.io/portfolio/`.
+2. Verify ownership with the HTML tag method (add the provided meta tag to
+   `index.html`) or by putting the verification file in `public/`.
+3. Submit `https://kalashree225.github.io/portfolio/sitemap.xml` under
+   **Sitemaps**.
+4. Use **URL Inspection → Request indexing** for the home page.
+5. Repeat in [Bing Webmaster Tools](https://www.bing.com/webmasters), or import
+   the site from Search Console.
+
+Indexing can take days to weeks. Linking the live URL from GitHub, LinkedIn,
+and your résumé helps search engines discover it. Check progress with:
+
+```text
+site:kalashree225.github.io/portfolio
+```
 
 ---
 

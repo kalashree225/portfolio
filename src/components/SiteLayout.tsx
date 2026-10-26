@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { ArrowUpRight, FileText, Menu, X } from 'lucide-react';
-import { site } from '../config';
+import { articleBySlug, conceptBySlug, projectBySlug, site } from '../config';
 import { ResumeCanvas } from './ResumeCanvas';
 import { Reveal } from './Reveal';
 import { Expand, Pill } from './motion/primitives';
@@ -22,11 +22,31 @@ export function SiteLayout() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-    document.title = location.pathname.startsWith('/work/')
-      ? `${site.name} — Project`
-      : location.pathname.startsWith('/writing/')
-        ? `${site.name} — Writing`
-        : site.title;
+
+    const pathname = location.pathname.replace(/\/+$/, '') || '/';
+    const segments = pathname.split('/').filter(Boolean);
+    let title = site.title;
+
+    if (pathname === '/work') {
+      title = `Work — ${site.name}`;
+    } else if (segments[0] === 'work' && segments[1]) {
+      const project = projectBySlug(segments[1]);
+      title = project ? `${project.name} — ${site.name}` : `Work — ${site.name}`;
+    } else if (pathname === '/about') {
+      title = `About — ${site.name}`;
+    } else if (pathname === '/writing') {
+      title = `Writing — ${site.name}`;
+    } else if (segments[0] === 'writing' && segments[1] === 'notes' && segments[2]) {
+      const article = articleBySlug(segments[2]);
+      title = article ? `${article.title} — ${site.name}` : `Writing — ${site.name}`;
+    } else if (segments[0] === 'writing' && segments[1] === 'concepts' && segments[2]) {
+      const concept = conceptBySlug(segments[2]);
+      title = concept ? `${concept.title} — ${site.name}` : `Writing — ${site.name}`;
+    } else if (pathname === '/contact') {
+      title = `Contact — ${site.name}`;
+    }
+
+    document.title = title;
   }, [location.pathname]);
 
   useEffect(() => {

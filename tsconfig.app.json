@@ -8,7 +8,6 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
@@ -30,5 +29,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src/App.tsx",
+    "src/main.tsx",
+    "src/config.ts",
+    "src/components/SiteLayout.tsx",
+    "src/components/ProjectDeck.tsx",
+    "src/components/SectionHeading.tsx",
+    "src/components/PageHead.tsx",
+    "src/components/Reveal.tsx",
+    "src/hooks/useInView.ts",
+    "src/pages/*.tsx"
+  ]
 }

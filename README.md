@@ -1,258 +1,149 @@
-# Photographer Style Template
+# Kalashree — Systems, Data & Engineering Portfolio
 
-A high-end, dark-themed single-page website template with dramatic animations, built for photographers, creative studios, and visual artists. Features GSAP-powered scroll animations, 3D transforms, particle effects, custom cursor, and a noise texture overlay.
+A personal portfolio and interactive technical writing system for **Kalashree**, focused on AI backends, distributed data pipelines, and clear developer tools.
 
-## Features
+Built with a Material 3-inspired editorial aesthetic: a Rosewater & Mulberry dark theme, restrained frosted-glass surfaces, soft lilac lighting, responsive data-driven SVG diagrams, in-browser reading modes with persistent text annotations, and a headless Chromium résumé PDF generation pipeline. The home page leads with selected work, then practice areas and verified portfolio counts.
 
-- Full-screen hero with chromatic aberration effect
-- GSAP ScrollTrigger-powered scroll animations throughout
-- 3D card transforms and parallax scrolling
-- Interactive custom cursor (desktop)
-- Canvas-based floating particle field
-- Noise texture overlay for cinematic feel
-- Typewriter, blur-reveal, clip-path, and elastic animations
-- Floating image preview on service hover
-- Animated price counter
-- Marquee text in footer with highlighted characters
-- Fully responsive with mobile menu
-- Reduced motion support
+---
 
-## Tech Stack
+## ✦ Core Design Principles
 
-- React 19 + TypeScript
-- Vite
-- Tailwind CSS 3
-- GSAP (ScrollTrigger)
-- Lucide React (icons)
-- Geist font (Google Fonts)
+1. **Defensible by Design**: Every number, date, and claim on this site is something the author can defend. Rather than inventing uptime or throughput claims, "at a glance" metrics reflect real repository artifacts, documented architectures, and written engineering notes.
+2. **Material 3, editorially composed**: A plum-toned dark canvas, translucent elevated surfaces, rose primary actions, and muted lilac accents keep the interface legible without flattening its personality. Serif display typography (`DM Serif Display`), body prose (`Plus Jakarta Sans`), and technical labels (`JetBrains Mono`) establish a clear hierarchy. Light mode remains available from the navigation.
+3. **Diagrams as Data**: Architectural topologies are defined as structured node and edge graphs (`DiagramNode[]`, `DiagramEdge[]`) rendered as dynamic inline SVG with responsive coordinates and automatic theme inheritance.
+4. **Interactive Writing System**: Essays feature three reader modes: **Read**, **Explore** (interactive simulation models), and **Annotate** (semantic text highlights and sticky notes saved across sessions).
+5. **Single Source of Truth for Résumé**: The on-screen résumé modal and the downloadable `public/resume.pdf` share the exact same component (`ResumePaper`), compiled headlessly with Edge/Chromium to guarantee zero drift.
 
-## Project Structure
+---
 
+## ✦ Pages & Route Structure
+
+| Route | View | Description |
+|---|---|---|
+| `/` | `Home` | Branded hero, selected-project deck, practice areas, and verified portfolio counts |
+| `/work` | `Work` | Category-filterable project index across AI & backend, Data, Tools, and Frontend |
+| `/work/:slug` | `ProjectDetail` | Detailed case study with interactive system topology diagram, architecture breakdown, and link to engineering essay |
+| `/about` | `About` | Background, technical philosophy, and working principles |
+| `/writing` | `Writing` | Technical hub: written engineering notes, concept graph, implementation backlog, and curated reading paths |
+| `/writing/notes/:slug` | `Article` | Full essay with table of contents, reading progress, interactive model, and annotation tools |
+| `/writing/concepts/:slug` | `Concept` | Concept deep-dive with interconnected articles and bidirectional relationships |
+| `/contact` | `Contact` | Contact channel with copyable email, social links, and structured inquiry composer |
+| `/print/resume` | `PrintResume` | Isolated print layout consumed by the headless PDF generation script |
+
+---
+
+## ✦ Documented Project
+
+- **StockLedger**: High-concurrency inventory and order management system with strict transaction boundaries and asynchronous worker offloading.
+
+---
+
+## ✦ Writing & Interactive Systems
+
+- **Reading Modes**:
+  - **Read** (Key: `R`): Uncluttered long-form prose with responsive section tracking.
+  - **Explore** (Key: `E`): Embedded deterministic simulation models (e.g. cache hit/miss behavior and failover under load).
+  - **Annotate** (Key: `A`): DOM-offset-based highlight and marginalia system stored in `localStorage`. Survives window resizing and font reflow.
+- **Interactive Models**: Deterministic arithmetic engines with transparent mathematical formulas rather than synthetic or random telemetry.
+
+---
+
+## ✦ Tech Stack
+
+- **Runtime & UI**: React 19, TypeScript, React Router 7
+- **Styling**: Vanilla CSS token ramp (`theme.css` + `index.css`) with Material 3 role tokens and Material Color Utilities
+- **Bundler & Tooling**: Vite 7, ESLint 9
+- **Headless Printing**: Puppeteer Core / Microsoft Edge headless driver
+- **Typography**: Google Fonts (*DM Serif Display*, *Plus Jakarta Sans*, *JetBrains Mono*, *Outfit*)
+
+---
+
+## ✦ Development & Scripts
+
+### Prerequisites
+
+- Node.js 18+
+- npm or pnpm
+- Google Chrome or Microsoft Edge (for PDF résumé generation)
+
+### Installation
+
+```bash
+npm install
 ```
-src/
-  config.ts           # All content configuration (edit this file)
-  App.tsx             # Root component
-  App.css             # Default Vite styles (unused)
-  index.css           # Global styles, CSS variables, animations
-  main.tsx            # Entry point
-  sections/
-    Hero.tsx          # Full-screen hero with parallax
-    About.tsx         # About section with dual images + author bio
-    Works.tsx         # Portfolio grid with 3D card hover
-    Services.tsx      # Service list with floating image preview
-    FAQ.tsx           # Accordion FAQ with alternating layout
-    Testimonials.tsx  # 3D testimonial cards
-    Pricing.tsx       # Pricing plans with animated counter
-    Blog.tsx          # Blog posts with clip-path reveal
-    Contact.tsx       # Contact form with diagonal divider
-    Footer.tsx        # Footer with marquee and link columns
-  components/
-    Navigation.tsx    # Fixed navbar with mobile menu
-    CustomCursor.tsx  # Custom red cursor (desktop only)
-    ParticleField.tsx # Canvas particle animation
-    ui/               # shadcn/ui components
-  hooks/
-    useInView.ts      # Intersection Observer hook
-    useMousePosition.ts # Mouse position tracker
-    use-mobile.ts     # Mobile breakpoint detection
-  lib/
-    utils.ts          # Utility functions
-public/
-  images/             # Place your images here
+
+### Development Server
+
+```bash
+npm run dev
 ```
 
-## Quick Start
+Visit [http://localhost:5173](http://localhost:5173) (or `http://localhost:3000` depending on port assignment).
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+### Typecheck & Production Build
 
-2. Edit `src/config.ts` with your content
+```bash
+npm run build
+```
 
-3. Add images to `public/` directory
+### Automated Test Suite
 
-4. Start development server:
-   ```bash
-   npm run dev
-   ```
+Runs the Vitest suite validating data integrity, diagram linkage, word count math, and theme contrast compliance:
 
-5. Build for production:
-   ```bash
-   npm run build
-   ```
+```bash
+npm test
+```
 
-## Configuration
+### Code Quality & Linting
 
-All content is configured in `src/config.ts`. Each section has its own config object with TypeScript interfaces.
+```bash
+npm run lint
+```
 
-### siteConfig
+### Google Stitch & Figma Theme Generator
 
-| Field | Type | Description |
-|---|---|---|
-| title | string | Browser tab title |
-| description | string | Site meta description |
-| language | string | HTML lang attribute (e.g. "en", "zh-CN") |
+Regenerates all 4 curated designer colorways (Sage Technical, Obsidian Indigo, Terracotta Amber, Nordic Frost) using Google's HCT color math with automated WCAG AA contrast audits:
 
-### navigationConfig
+```bash
+npm run theme
+```
 
-| Field | Type | Description |
-|---|---|---|
-| logo | string | Brand name shown in navbar |
-| items | NavItem[] | Navigation links `{ label, href }` |
+### Headless Résumé PDF Generation
 
-### heroConfig
+Compiles the print target bundle and renders a fresh `public/resume.pdf` using headless Chromium:
 
-| Field | Type | Description |
-|---|---|---|
-| title | string | Large hero title (split into animated characters) |
-| subtitle | string | Subtitle below title |
-| backgroundImage | string | Hero background image path |
-| servicesLabel | string | Vertical text on left side |
-| copyright | string | Copyright text bottom-right |
+```bash
+npm run resume:pdf
+```
 
-### aboutConfig
+### Deploy to GitHub Pages
 
-| Field | Type | Description |
-|---|---|---|
-| titleLine1 | string | First line of section title |
-| titleLine2 | string | Second line of section title |
-| description | string | About paragraph |
-| image1 | string | Primary image path |
-| image1Alt | string | Alt text for image 1 |
-| image2 | string | Secondary image path (overlapping) |
-| image2Alt | string | Alt text for image 2 |
-| authorImage | string | Author portrait path |
-| authorName | string | Author name |
-| authorBio | string | Author biography (animated char by char) |
+This repository is configured for a GitHub Pages project site at
+`https://kalashree225.github.io/portfolio/`.
 
-### worksConfig
+1. In the GitHub repository, open **Settings → Pages** and set
+   **Build and deployment → Source** to **GitHub Actions**.
+2. Commit and push to `main`.
+3. The workflow in `.github/workflows/deploy.yml` installs dependencies, runs
+   `npm run build:pages`, and publishes `dist/`.
+4. Every later push to `main` redeploys automatically. You can also start a
+   deployment from the **Actions** tab with **Run workflow**.
 
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title (animated per character) |
-| subtitle | string | Section subtitle |
-| projects | WorkItem[] | Array of `{ id, title, category, image }` |
+`npm run build:pages` runs the normal production build and copies
+`dist/index.html` to `dist/404.html`, so direct links to routes such as
+`/portfolio/work/stockledger` still load the React app on Pages.
 
-### servicesConfig
+The production base path is set in `vite.config.ts` to `/portfolio/`. If the
+repository is renamed or the site moves to a custom domain, update that value
+(and the router basename follows it automatically).
 
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title |
-| subtitle | string | Section subtitle |
-| services | ServiceItem[] | Array of `{ id, title, description, image }` |
+---
 
-### testimonialsConfig
+## ✦ Content Customization
 
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title |
-| testimonials | TestimonialItem[] | Array of `{ id, name, title, quote, image }` |
-
-### pricingConfig
-
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title |
-| subtitle | string | Section subtitle |
-| ctaButtonText | string | Button text on each card |
-| plans | PricingPlan[] | Array of `{ id, name, price, unit, featured, features }` |
-
-### faqConfig
-
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title |
-| faqs | FAQItem[] | Array of `{ question, answer }` |
-
-### blogConfig
-
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title |
-| subtitle | string | Section subtitle |
-| allPostsLabel | string | "View all" button text |
-| readMoreLabel | string | "Read more" link text |
-| readTimePrefix | string | Prefix before read time (e.g. "Read ") |
-| posts | BlogPost[] | Array of `{ id, title, excerpt, readTime, date, image, category }` |
-
-### contactConfig
-
-| Field | Type | Description |
-|---|---|---|
-| title | string | Section title (animated per character) |
-| subtitle | string | Section subtitle |
-| nameLabel | string | Name field label |
-| emailLabel | string | Email field label |
-| projectTypeLabel | string | Project type field label |
-| projectTypePlaceholder | string | Select placeholder |
-| projectTypeOptions | ContactFormOption[] | Array of `{ value, label }` |
-| messageLabel | string | Message field label |
-| submitButtonText | string | Submit button text |
-| image | string | Side image path |
-
-### footerConfig
-
-| Field | Type | Description |
-|---|---|---|
-| marqueeText | string | Scrolling marquee text |
-| marqueeHighlightChars | string[] | Characters to highlight in red |
-| navLinks1 | FooterLink[] | First column links `{ label, href }` |
-| navLinks2 | FooterLink[] | Second column links `{ label, href, icon? }` |
-| ctaText | string | CTA link text |
-| ctaHref | string | CTA link href |
-| copyright | string | Copyright line |
-| tagline | string | Tagline next to copyright |
-
-## Required Images
-
-Place these images in the `public/` directory:
-
-| Image | Usage | Recommended Size |
-|---|---|---|
-| hero-main.jpg | Hero background | 1920x1080+ |
-| about-1.jpg | About section primary | 800x1200 |
-| about-2.jpg | About section secondary | 600x900 |
-| photographer.jpg | Author portrait | 400x400 |
-| work-1.jpg to work-4.jpg | Portfolio items | 800x1067 (3:4) |
-| service-1.jpg to service-4.jpg | Service preview images | 600x800 |
-| testimonial-1.jpg to testimonial-3.jpg | Testimonial avatars | 400x400 |
-| blog-1.jpg, blog-2.jpg | Blog post covers | 1200x675 (16:9) |
-| contact.jpg | Contact section image | 800x1200 |
-
-## Design
-
-### Colors
-- **Background**: Black (#000000)
-- **Foreground**: White (#ffffff)
-- **Highlight/Accent**: Red (#ea0000)
-- **Dark Gray**: #1a1a1a
-- **Deep Black**: #0a0a0a
-
-### Typography
-- **Font**: Geist (Google Fonts)
-- **Display XXL**: 168px
-- **Display XL**: 126px
-- **H1**: 71.66px
-- **H2**: 59.72px
-- **H3**: 49.77px
-- **H4**: 41.47px
-- **H5**: 34.56px
-- **H6**: 28.8px
-- **Body Large**: 20px
-- **Body**: 16px
-- **Body Small**: 14px
-
-### Animation Easings
-- Dramatic: `cubic-bezier(0.87, 0, 0.13, 1)`
-- Elastic: `cubic-bezier(0.68, -0.55, 0.265, 1.55)`
-- Smooth: `cubic-bezier(0.4, 0, 0.2, 1)`
-- Expo Out: `cubic-bezier(0.16, 1, 0.3, 1)`
-
-## Notes
-
-- All sections return `null` when their config is empty, so unused sections are automatically hidden
-- The custom cursor is hidden on touch devices
-- Particle count is reduced on touch devices for performance
-- The `language` field in `siteConfig` controls the HTML `lang` attribute
-- Footer link icons are mapped by name: currently supports "Instagram" and "Dribbble"
+All primary data lives in `src/config.ts`:
+- **`site`**: Name, email, GitHub profile, LinkedIn profile, contact endpoint.
+- **`projects`**: Project metadata, technology stacks, descriptions, and diagram associations.
+- **`articles`**: Written essays, block contents, associated project links, and concept tags.
+- **`diagrams`**: Node-and-edge coordinate models for inline SVG architecture diagrams.
+- **`resumeData`**: Practice areas, core skills, selected work, and engineering principles.
